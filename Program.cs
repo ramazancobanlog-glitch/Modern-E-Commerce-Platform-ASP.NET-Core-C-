@@ -38,4 +38,3 @@ app.MapControllerRoute(
 app.MapHub<login.Hubs.NotificationHub>("/hubs/notifications");
 
 app.Run();
-S
