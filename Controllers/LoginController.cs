@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using login.Data;
 using login.Models;
 using login.Services;
@@ -26,7 +27,7 @@ namespace login.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(string username, string password)
+        public async Task<IActionResult> Index(string username, string password)
         {
             var user = _context.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
             if (user == null)
@@ -40,6 +41,18 @@ namespace login.Controllers
                 ViewBag.Error = "Lütfen önce email adresinizi doğrulayın.";
                 return View();
             }
+            var verficationCode = new Random().Next(100000, 999999).ToString();
+            user.verificationCode = verficationCode;
+            user.VerificationCodeExpiresAt = DateTime.Now.AddMinutes(10);
+            _context.SaveChanges();
+            await _emailService.SendEmailAsync(
+                user.Email,
+                "Giriş Doğrulama Kodu",
+                $"Giriş yapmak için doğrulama kodunuz: <b>{verficationCode}</b>. Bu kod 10 dakika içinde geçersiz olacaktır."
+            );
+
+            TempData["UserEmail"] = user.Email;
+            return RedirectToAction("VerifyCode");
 
             HttpContext.Session.SetString("Username", user.Username);
             HttpContext.Session.SetString("IsAdmin", user.IsAdmin.ToString());
@@ -48,6 +61,39 @@ namespace login.Controllers
                 return RedirectToAction("Index", "Admin");
             else
                 return RedirectToAction("Index", "Home");
+        }
+           
+
+         public IActionResult VerifyCode(string email, string code)
+        {
+           var User = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (User == null)
+            {
+                ViewBag.Error = "Kullanıcı Bulunamadı.";
+                return RedirectToAction("login", "Index");
+
+            }
+            if (User.verificationCode == code || User.VerificationCodeExpiresAt < DateTime.Now)
+            {
+                User.verificationCode = null;
+                User.VerificationCodeExpiresAt = null;
+                _context.SaveChanges();
+                if (!string.IsNullOrEmpty(User?.Email))
+                {
+                    HttpContext.Session.SetString("UserEmail", User.Email);
+
+                }
+               // if (!string.IsNullOrEmpty(User?.Username)){
+                    HttpContext.Session.SetString("Username", User.Username);
+          //  }
+                TempData["Success"] = "GirişBaşarılı";
+                return RedirectToAction("verifiy");
+
+            }
+            TempData["Error"] = "Geçersiz Kod veya Süresi Dolmuş";
+            return View();
+            
+
         }
 
         [HttpGet]

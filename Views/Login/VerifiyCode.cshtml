@@ -1,0 +1,13 @@
+
+
+
+
+
+
+
+
+<form asp-action="VerifyCode" method="post">
+    <input type="hidden" name="email" value="@TempData["UserEmail"]" />
+    <input type="text" name="code" placeholder="Doğrulama kodu" required />
+    <button type="submit">Doğrula</button>
+</form>
