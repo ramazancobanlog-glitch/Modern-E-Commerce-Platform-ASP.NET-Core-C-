@@ -107,7 +107,7 @@ namespace login.Controllers
                     HttpContext.Session.SetString("Username", user.Username);
                 HttpContext.Session.SetString("IsAdmin", user.IsAdmin.ToString());
 
- //dsadasdas
+ //dsadasdasasdasdsa
                 // Admin ise admin paneline, değilse ana sayfaya yönlendir
                 if (user.IsAdmin)
                 {
