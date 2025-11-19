@@ -1,0 +1,11 @@
+@model IEnumerable<login.Models.Category>
+
+<div class="container py-4">
+    <h2>Kategoriler</h2>
+    <div class="d-flex flex-wrap gap-2">
+        @foreach(var c in Model)
+        {
+            <a class="btn btn-outline-secondary" asp-controller="Category" asp-action="Show" asp-route-id="@c.Id">@c.Name</a>
+        }
+    </div>
+</div>

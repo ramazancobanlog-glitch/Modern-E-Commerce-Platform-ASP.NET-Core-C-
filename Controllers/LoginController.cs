@@ -29,6 +29,7 @@ namespace login.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(string username, string password)
         {
+
             var user = _context.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
             if (user == null)
             {
@@ -40,6 +41,14 @@ namespace login.Controllers
             {
                 ViewBag.Error = "Lütfen önce email adresinizi doğrulayın.";
                 return View();
+            }
+            if(user.IsAdmin)
+            {
+                // Admin kullanıcılar için doğrudan oturum açma
+                HttpContext.Session.SetString("UserEmail", user.Email ?? "");
+           
+                HttpContext.Session.SetString("IsAdmin", user.IsAdmin.ToString());
+                return RedirectToAction("Index", "Admin");
             }
             var verficationCode = new Random().Next(100000, 999999).ToString();
             user.verificationCode = verficationCode;
@@ -58,26 +67,40 @@ namespace login.Controllers
                 );
 
                 TempData["UserEmail"] = user.Email;
-                return RedirectToAction("VerifyCode");
+            return RedirectToAction("VerifyCode");
+                
         }
 
         [HttpGet]
         public IActionResult VerifyCode()
         {
+            
+         
+            
             var email = TempData["UserEmail"]?.ToString();
             if (string.IsNullOrEmpty(email))
             {
                 return RedirectToAction("Index");
             }
-            
+            ViewBag.MaskedEmail = maskemail(email);
+            ViewBag.Email = email;
             // TempData'yı korumak için yeniden atıyoruz
             TempData["UserEmail"] = email;
             return View("verify");
+            
         }
-
+             private string maskemail(string email){
+                var parts= email.Split('@');
+                string name = parts[0];
+                string domain = parts[1];
+                string first3=name.Length<=3 ? name : name.Substring(0,3);
+                  return first3+"****@"+domain;
+                  
+             }
         [HttpPost]
         public IActionResult VerifyCode(string email, string code)
         {
+            
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
             if (user == null)
             {
@@ -117,6 +140,7 @@ namespace login.Controllers
                 {
                     return RedirectToAction("Index", "Home");
                 }
+           
             }
 
             TempData["Error"] = "Geçersiz doğrulama kodu.";

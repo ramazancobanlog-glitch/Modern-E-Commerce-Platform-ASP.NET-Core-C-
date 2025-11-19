@@ -19,8 +19,18 @@ namespace login.Controllers
 
         public IActionResult Index()
         {
-            var products = _context.Products.ToList();
-            return View(products);
+            var products = _context.Products
+                .Include(p => p.Category)
+                .ToList();
+            var categories = _context.Categories.ToList();
+
+            var vm = new HomeIndexViewModel
+            {
+                Products = products,
+                Categories = categories
+            };
+
+            return View(vm);
         }
 
         public IActionResult Privacy()

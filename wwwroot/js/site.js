@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			})
 			.then(function (res) { return res.json(); })
 			.then(function (data) {
-				if (data && data.success) {
+				if (data && data.success) {				
 					// update badge count and animate 1-2-3 near the cart icon
 					try {
 						var badge = document.getElementById('cart-badge');
@@ -68,6 +68,27 @@ document.addEventListener('DOMContentLoaded', function () {
 			});
 		});
 	});
+
+	// Category filtering
+	var chips = document.querySelectorAll('.category-chip');
+	if (chips.length) {
+		chips.forEach(function(chip){
+			chip.addEventListener('click', function(){
+				chips.forEach(c => c.classList.remove('active'));
+				chip.classList.add('active');
+				var id = chip.getAttribute('data-id');
+				var cards = document.querySelectorAll('.product-card');
+				if (id === '0') { // show all
+					cards.forEach(function(card){ card.style.display = ''; });
+				} else {
+					cards.forEach(function(card){
+						var cat = card.getAttribute('data-category-id');
+						if (cat === id) card.style.display = ''; else card.style.display = 'none';
+					});
+				}
+			});
+		});
+	}
 
 
 	// Sepetteki ürünü silme

@@ -1,0 +1,24 @@
+@using login.Helpers
+@model login.Models.Category
+
+<div class="container py-4">
+    <h2>@Model.Name</h2>
+    <p>@(Model.Products?.Count() ?? 0) ürün bulundu</p>
+    <div class="product-list">
+        @foreach(var p in Model.Products ?? Enumerable.Empty<login.Models.Product>())
+        {
+            <div class="product-card">
+                <div style="height:120px;margin-bottom:1rem;">
+                    <img src="@Url.Content(p.ImageUrl ?? "~/img/mouse.jpg")" alt="@p.Name" style="max-height:120px;object-fit:contain;" />
+                </div>
+                <h4>@p.Name</h4>
+                <div>@TurkishLiraFormatting.Format(p.Price)</div>
+                <form method="post" action="/Cart/AddToCartAjax" class="ajax-add-to-cart">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="productId" value="@p.Id" />
+                    <button class="btn btn-primary w-100">Sepete Ekle</button>
+                </form>
+            </div>
+        }
+    </div>
+</div>
