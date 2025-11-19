@@ -14,7 +14,7 @@ namespace login.Data
             var envConn = Environment.GetEnvironmentVariable("DefaultConnection")
                           ?? Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
             var conn = string.IsNullOrWhiteSpace(envConn)
-                ? "Server=localhost;Port=3306;Database=ZipApp;User=root;Password=your_mysql_password;"
+                ? "Server=sql7.freesqldatabase.com;Port=3306;Database=sql7808503;User=sql7808503;Password=ZNzeqYbxrG;"
                 : envConn;
             try
             {
