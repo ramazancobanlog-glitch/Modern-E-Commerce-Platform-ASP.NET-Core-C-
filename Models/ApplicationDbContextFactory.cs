@@ -19,14 +19,20 @@ namespace login.Data
             try
             {
                 // Try AutoDetect (works when connection can be established)
-                optionsBuilder.UseMySql(conn, ServerVersion.AutoDetect(conn));
+                optionsBuilder.UseMySql(conn, ServerVersion.AutoDetect(conn), mySqlOptions =>
+                {
+                    mySqlOptions.EnableRetryOnFailure();
+                });
             }
             catch
             {
                 // If AutoDetect fails (e.g., remote DB blocked), fall back to a default MySQL Server version
                 // This prevents EF design-time exceptions when the DB is inaccessible.
                 var serverVersion = new MySqlServerVersion(new Version(8, 0, 32));
-                optionsBuilder.UseMySql(conn, serverVersion);
+                optionsBuilder.UseMySql(conn, serverVersion, mySqlOptions =>
+                {
+                    mySqlOptions.EnableRetryOnFailure();
+                });
             }
 
             return new ApplicationDbContext(optionsBuilder.Options);

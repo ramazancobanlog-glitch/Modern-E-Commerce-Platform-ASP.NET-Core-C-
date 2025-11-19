@@ -19,14 +19,20 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     // Use Pomelo MySQL EF Core provider
     try
     {
-        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), mySqlOptions =>
+        {
+            mySqlOptions.EnableRetryOnFailure();
+        });
     }
     catch
     {
         // If AutoDetect fails (for example when remote DB is blocked during development),
         // use a default server version as a fallback so the app can still start for local dev.
         var serverVersion = new MySqlServerVersion(new Version(8, 0, 32));
-        options.UseMySql(connectionString, serverVersion);
+        options.UseMySql(connectionString, serverVersion, mySqlOptions =>
+        {
+            mySqlOptions.EnableRetryOnFailure();
+        });
     }
 });
 
