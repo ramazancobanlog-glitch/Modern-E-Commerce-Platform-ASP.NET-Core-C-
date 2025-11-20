@@ -1,12 +1,17 @@
 ﻿@model login.Models.AdminIndexViewModel
 @using login.Helpers
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-	<h2>Admin Panel</h2>
-	<div>
-		<a class="btn btn-secondary" href="/Login/Logout">Logout</a>
-	</div>
-</div>
+<!-- Admin Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+        <span class="navbar-brand">Admin Paneli</span>
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link" href="/Admin/Index">📦 Siparişler</a>
+            <a class="nav-link" href="/Admin/Chat">💬 Canlı Sohbet</a>
+            <a class="nav-link" href="/Login/Logout">🚪 Çıkış</a>
+        </div>
+    </div>
+</nav>
 
 <h3>Onay Bekleyen Sepetler</h3>
 
@@ -105,8 +110,8 @@ else
 	</table>
 }
 
+
 @section Scripts {
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.11/signalr.min.js" integrity="sha512-/qV7k6z4VQYl5D6L+3hQ7a1uQ5v0mQ0a2v9bXwYV+Vb1K6jK4n2E6ZJ4g5P3h7Cq1r8mJt9z3V8Q2YJ3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script>
 		(function(){
 			const connection = new signalR.HubConnectionBuilder()

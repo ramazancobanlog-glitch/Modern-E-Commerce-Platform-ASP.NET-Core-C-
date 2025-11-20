@@ -45,6 +45,9 @@ builder.Services.AddSingleton<EmailService>();
 builder.Services.AddSingleton<IyzipayService>();
 builder.Services.AddHttpContextAccessor();
 
+// Configure HttpClient and WhatsApp Service
+builder.Services.AddHttpClient<WhatsAppService>();
+
 var app = builder.Build();
 
 app.UseHttpsRedirection();
@@ -59,7 +62,8 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// map SignalR hub endpoint
+// map SignalR hub endpoints
 app.MapHub<login.Hubs.NotificationHub>("/hubs/notifications");
+app.MapHub<login.Hubs.ChatHub>("/hubs/chat");
 
 app.Run();
