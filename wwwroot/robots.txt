@@ -1,0 +1,49 @@
+# ZipApp - robots.txt
+# Search Engine Crawler Rules
+
+User-agent: *
+Allow: /
+Allow: /Home/
+Allow: /Category/
+Allow: /Home/Detail/
+
+# Disallow admin and private areas
+Disallow: /Admin/
+Disallow: /Login/
+Disallow: /Cart/
+Disallow: /api/
+Disallow: /hubs/
+
+# Disallow query parameters that cause duplicate content
+Disallow: /*?sort=
+Disallow: /*?filter=
+Disallow: /*?page=
+
+# Crawl delay (seconds between requests)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://zipapp.com/sitemap.xml
+
+# Specific bot rules
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Yandex
+Allow: /
+Crawl-delay: 2
+
+# Block bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
