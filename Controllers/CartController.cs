@@ -89,13 +89,15 @@ namespace login.Controllers
 
 		TempData["SuccessMessage"] = $"{product.Name} sepete başarıyla eklendi!";
 		return RedirectToAction("Index", "Home");
-	}		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public IActionResult AddToCartAjax([FromForm] int productId)
-		{
-			// convenience alias for AJAX calls; keep same behavior as AddToCart but returns JSON
-			return AddToCart(productId);
-		}
+	}
+
+	[HttpPost]
+	[ValidateAntiForgeryToken]
+	public IActionResult AddToCartAjax([FromForm] int productId)
+	{
+		// convenience alias for AJAX calls; keep same behavior as AddToCart but returns JSON
+		return AddToCart(productId);
+	}
 
 		// Support legacy/mistyped URL: GET /Cart/AddtoCard -> redirect to home
 		[HttpGet]

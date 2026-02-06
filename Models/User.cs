@@ -14,6 +14,8 @@
         public string? EmailConfirmationToken { get; set; }
         public string? verificationCode { get; set; }
         public DateTime? VerificationCodeExpiresAt { get; set; }
+        public DateTime? BirthDate { get; set; }
+        public string? Address { get; set; }
 
     }
 }
