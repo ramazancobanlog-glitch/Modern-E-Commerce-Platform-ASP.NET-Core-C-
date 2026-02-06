@@ -48,6 +48,9 @@ builder.Services.AddHttpContextAccessor();
 // Configure HttpClient and WhatsApp Service
 builder.Services.AddHttpClient<WhatsAppService>();
 
+// Register SEO Service
+builder.Services.AddScoped<SeoService>();
+
 var app = builder.Build();
 
 // Apply migrations and seed data

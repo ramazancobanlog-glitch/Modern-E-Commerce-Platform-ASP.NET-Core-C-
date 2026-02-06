@@ -8,11 +8,90 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ZipApp</title>
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>@(ViewData["SeoTitle"] ?? ViewData["Title"]) - ZipApp</title>
+    <meta name="description" content="@(ViewData["SeoDescription"] ?? "ZipApp - Türkiye'nin en güvenilir online alışveriş platformu. Binlerce ürün, uygun fiyatlar, hızlı teslimat ve %100 güvenli ödeme.")" />
+    <meta name="keywords" content="@(ViewData["SeoKeywords"] ?? "online alışveriş, e-ticaret, indirimli ürünler, hızlı teslimat, güvenli alışveriş, ZipApp")" />
+    <meta name="author" content="ZipApp" />
+    <meta name="robots" content="@(ViewData["SeoRobots"] ?? "index, follow")" />
+    
+    <!-- Canonical URL -->
+    @if (ViewData["CanonicalUrl"] != null)
+    {
+        <link rel="canonical" href="@ViewData["CanonicalUrl"]" />
+    }
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="@(ViewData["OgType"] ?? "website")" />
+    <meta property="og:site_name" content="ZipApp" />
+    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:title" content="@(ViewData["OgTitle"] ?? ViewData["Title"]) - ZipApp" />
+    <meta property="og:description" content="@(ViewData["OgDescription"] ?? ViewData["SeoDescription"] ?? "ZipApp - Türkiye'nin en güvenilir online alışveriş platformu.")" />
+    <meta property="og:url" content="@(ViewData["OgUrl"] ?? Context.Request.Path)" />
+    @if (ViewData["OgImage"] != null)
+    {
+        <meta property="og:image" content="@ViewData["OgImage"]" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+    }
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="@(ViewData["TwitterCard"] ?? "summary_large_image")" />
+    <meta name="twitter:site" content="@@ZipApp" />
+    <meta name="twitter:title" content="@(ViewData["TwitterTitle"] ?? ViewData["Title"]) - ZipApp" />
+    <meta name="twitter:description" content="@(ViewData["TwitterDescription"] ?? ViewData["SeoDescription"] ?? "ZipApp - Türkiye'nin en güvenilir online alışveriş platformu.")" />
+    @if (ViewData["TwitterImage"] != null)
+    {
+        <meta name="twitter:image" content="@ViewData["TwitterImage"]" />
+    }
+    
+    <!-- Additional SEO Tags -->
+    <meta name="theme-color" content="#FF6B35" />
+    <meta name="msapplication-TileColor" content="#FF6B35" />
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="~/apple-touch-icon.png" />
+    
+    <!-- Structured Data (JSON-LD) -->
+    @if (ViewData["JsonLd"] != null)
+    {
+        <script type="application/ld+json">
+            @Html.Raw(ViewData["JsonLd"])
+        </script>
+    }
+    else
+    {
+        <!-- Default Organization Schema -->
+        <script type="application/ld+json">
+        {
+            "@@context": "https://schema.org",
+            "@@type": "Organization",
+            "name": "ZipApp",
+            "url": "https://zipapp.com",
+            "logo": "https://zipapp.com/img/logo.png",
+            "description": "Türkiye'nin en güvenilir online alışveriş platformu",
+            "contactPoint": {
+                "@@type": "ContactPoint",
+                "telephone": "+90-555-123-4567",
+                "contactType": "customer service",
+                "availableLanguage": "Turkish"
+            },
+            "sameAs": [
+                "https://facebook.com/zipapp",
+                "https://twitter.com/zipapp",
+                "https://instagram.com/zipapp"
+            ]
+        }
+        </script>
+    }
+    
+    <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    
+    <!-- External Resources -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
